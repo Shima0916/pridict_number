@@ -232,7 +232,7 @@ function checkAnswer() {
 
 clear.addEventListener("click",clear_canvas);
 
-// イベントリスナーを追加
+// イベントリスナーを追加/
 submitScoreButton.addEventListener("click", submitScore);
 // 初回にランキングをロード
 getRankings();
