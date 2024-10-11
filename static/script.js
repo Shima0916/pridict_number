@@ -5,7 +5,6 @@ const clear = document.getElementById("clear");
 
 const problemElement = document.getElementById("problem");
 const answerElement = document.getElementById("answer");
-const pro_btn = document.getElementById("pro_btn");
 
 //ランキング用
 const submitScoreButton = document.getElementById("submitScore");
@@ -17,14 +16,16 @@ canvas.width = 640;  // ピクセルサイズを640pxに設定
 canvas.height = 480; // ピクセルサイズを480pxに設定
 
 
-canvas.addEventListener('mousedown', startDrawing);
-canvas.addEventListener('mouseup', stopDrawing);
-canvas.addEventListener("mouseout", stopDrawing_out);
-canvas.addEventListener("mousemove", draw);
-
 // WebSocket接続の設定
 const socket = io.connect('http://127.0.0.1:5000');  // 127.0.0.1 に接続する場合
-///////////////////
+
+
+// カウントダウン画像のパス
+const countdownImages = [
+    "/static/rogo/3.png",  // 3秒
+    "/static/rogo/2.png",  // 2秒
+    "/static/rogo/1.png"   // 1秒
+];
 
 let x = 0;
 let y = 0;
@@ -37,8 +38,82 @@ let score = 0;
 //タイマー機能
 let timeLeft = 10;
 let timerElement = document.getElementById('timer');
-
+let timerRunning = false;
 let timeout = null;
+////
+
+document.addEventListener("keydown", (e)=>{
+    if(e.key === "Enter" && !timerRunning){
+        startCountdown();
+    }
+})
+
+// カウントダウンを表示
+function startCountdown() {
+    let countdownIndex = 0;
+    timerElement.textContent = '';  // カウントダウン時はタイマーのテキストを隠す
+
+    function showNextImage() {
+        if (countdownIndex < countdownImages.length) {
+            const image = new Image();
+            image.src = countdownImages[countdownIndex];
+            image.onload = function() {
+                clear_canvas();  // キャンバスをクリア
+                ctx.drawImage(image, (canvas.width - image.width) / 2, (canvas.height - image.height) / 2);  // 画像をキャンバスの中央に表示
+            };
+            countdownIndex++;
+            setTimeout(showNextImage, 1000);  // 1秒ごとに次の画像を表示
+        } else {
+            startGame();  // カウントダウン終了後にゲーム開始
+        }
+    }
+    showNextImage();
+}
+
+
+
+// ゲーム開始、タイマー開始
+function startGame() {
+    timeLeft = 10;  // タイマーを10秒に設定
+    timerElement.textContent = `残り時間: ${timeLeft}秒`;  // 初期の残り時間を表示
+    timerRunning = true;  // タイマーが動作していることを示す
+    clear_canvas();  // キャンバスをクリア
+    enableDrawing();
+    startTimer();  // タイマーを開始
+    getProblem();
+}
+
+function startTimer(){
+    timeout = setInterval(() => {
+        timeLeft--;
+        timerElement.textContent = `残り時間: ${timeLeft}秒`;
+
+        if (timeLeft <= 0) {
+            clearInterval(timeout);
+            timerRunning = false;  // タイマーが終了
+            disableDrawing();
+            timerElement.textContent = "時間切れ！";
+            alert("時間切れです。");
+        }
+    },1000); //1秒ごとに減らす
+}
+
+// 描画を有効化
+function enableDrawing() {
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener("mouseout", stopDrawing_out);
+    canvas.addEventListener("mousemove", draw);
+}
+
+function disableDrawing(){
+    canvas.removeEventListener('mousedown', startDrawing);
+    canvas.removeEventListener('mouseup', stopDrawing);
+    canvas.removeEventListener("mouseout", stopDrawing_out);
+    canvas.removeEventListener("mousemove", draw);
+}
+
+
 
 function startDrawing(e){
     isDrawing = true;
@@ -154,11 +229,10 @@ function checkAnswer() {
 }
 
 
-pro_btn.addEventListener("click", getProblem);
+
 clear.addEventListener("click",clear_canvas);
 
 // イベントリスナーを追加
 submitScoreButton.addEventListener("click", submitScore);
 // 初回にランキングをロード
 getRankings();
-getProblem();
