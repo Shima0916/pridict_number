@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+ 
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.container {
+    display: flex;
+    align-items: flex-start; /* キャンバスと結果を上揃え */
+}
+
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    margin-right: 20px; /* 結果のコンテナとの間隔 */
+}
+
+.mycanvas {
+    border: 1px solid #000;
+    width: 640px; /* 幅を指定 */
+    height: 480px; /* 高さを指定 */
+}
+
+.result-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 中央に配置 */
+}
+
+h2, h3 {
+    margin-top: 10px; /* 上のマージンを調整 */
+    font-size: 24px; /* 見出しのフォントサイズを大きく */
+}
+
+p {
+    font-size: 20px; /* テキストのフォントサイズを大きく */
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* ボタンと上の要素との間隔 */
+}
+
+button {
+    margin: 0 5px; /* ボタン間のスペース */
+    padding: 15px 25px; /* ボタンの内側のスペースを大きく */
+    font-size: 18px; /* ボタンのフォントサイズを大きく */
+    background-color: #007bff; /* ボタンの背景色 */
+    color: white; /* ボタンの文字色 */
+    border: none; /* ボタンの境界線を無くす */
+    border-radius: 5px; /* ボタンの角を丸くする */
+    cursor: pointer; /* マウスカーソルをポインタに */
+}
+
+button:hover {
+    background-color: #0056b3; /* ホバー時の背景色 */
+}
