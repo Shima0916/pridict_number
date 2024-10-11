@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="static/style.css">
+  <title>脳トレ</title>
+</head>
+<body>
+  <h1 class="header">かんたんな計算問題(⚠️制限時間10秒)</h1>
+  <h2>Enterキーで始める</h1>
+  <p id="timer">残り時間: 10秒</p>
+
+  <!-- ユーザ名を入力するフィールド-->
+  <label for="username">ユーザ名を入力:</label>
+  <input type="text" id = "username" placeholder="ユーザ名">
+
+  <div class="container">
+    <div class="canvas-container">
+      <canvas id="myCanvas" class="mycanvas"></canvas>
+    </div>
+    <div class="result-container">
+      <h2>予測結果:</h2>
+      <p id = "predictinalResult"></p>
+
+      <h3>問題文</h3>
+      <p id = problem></p>
+
+      <h3>答え</h3>
+      <p id = answer></p>
+    </div>
+  </div>
+
+  <div class = "buttons">
+    <button id="clear">書き直し</button>
+    <button id="submitScore">スコアを送信</button>
+  </div>
+  
+  <h2>ランキングトップ10</h2>
+  <!-- rankingsだった -->
+  <ul id="rankings"></ul> 
+
+  <!-- Socket.IOライブラリを読み込み -->
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+
+  <script src="static/scriptcopy.js"></script>
+</body>
+</html>
